@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  //output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -45,6 +45,7 @@ model Action{
   zapId String
   type availableActions @relation(fields: [actionId],references: [id])
   zap Zap @relation(fields: [zapId],references: [id])
+  sortingOrder Int @default(0)
 }
 model availableActions{
   id String @id @default(uuid())
