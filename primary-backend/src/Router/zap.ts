@@ -16,7 +16,7 @@ router.post('/',authmiddleware,async (req,res)=>{
             
         
     }
-    await prismaClient.$transaction(async tx =>{
+    await prismaClient.$transaction(async (tx) =>{
         const zap=await prismaClient.zap.create({
             data:{
                 userId:parseInt(id),
@@ -46,7 +46,9 @@ router.post('/',authmiddleware,async (req,res)=>{
             }
         })
 
-
+        return res.json({
+            message:"received"
+        })
 
 
     })

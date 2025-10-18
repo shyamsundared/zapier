@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { signupschema,signinschema } from "../types/index.js";
-import { client  } from "../db/index.js";
+import { prismaClient  } from "../db/index.js";
 import { authmiddleware } from "../middleware.js";
 
 import jwt from 'jsonwebtoken'
@@ -16,7 +16,7 @@ router.post('/signup',async (req,res)=>{
             message : "password and email requrie atleat 6 chars"
         })
     }
-    const userexists =await client.user.findFirst({
+    const userexists =await prismaClient.user.findFirst({
         where:{
             email: parsed.data.username,
 
@@ -27,7 +27,7 @@ router.post('/signup',async (req,res)=>{
             message :"user already exists"
         })
     }
-    const user =await client.user.create({
+    const user =await prismaClient.user.create({
         data:{
             email: parsed.data.username,
             password: parsed.data.password,
@@ -49,7 +49,7 @@ router.post('/signin',async (req,res)=>{
             message : "invalid credentials"
         })
     }
-    const user =await client.user.findFirst({
+    const user =await prismaClient.user.findFirst({
         where: {
             email:parsed.data.username,
             password:parsed.data.password
@@ -72,7 +72,7 @@ router.post('/signin',async (req,res)=>{
 router.get('/',authmiddleware,async (req,res)=>{
     //@ts-ignore
     const id=req.id
-    const user =await client.user.findFirst({
+    const user =await prismaClient.user.findFirst({
         where:{
             email:req.body.username,
         },

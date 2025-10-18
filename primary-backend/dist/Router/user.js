@@ -29,7 +29,7 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
             message: "password and email requrie atleat 6 chars"
         });
     }
-    const userexists = yield index_js_2.client.user.findFirst({
+    const userexists = yield index_js_2.prismaClient.user.findFirst({
         where: {
             email: parsed.data.username,
         }
@@ -39,7 +39,7 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
             message: "user already exists"
         });
     }
-    const user = yield index_js_2.client.user.create({
+    const user = yield index_js_2.prismaClient.user.create({
         data: {
             email: parsed.data.username,
             password: parsed.data.password,
@@ -58,7 +58,7 @@ router.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
             message: "invalid credentials"
         });
     }
-    const user = yield index_js_2.client.user.findFirst({
+    const user = yield index_js_2.prismaClient.user.findFirst({
         where: {
             email: parsed.data.username,
             password: parsed.data.password
@@ -79,7 +79,7 @@ router.post('/signin', (req, res) => __awaiter(void 0, void 0, void 0, function*
 router.get('/', middleware_js_1.authmiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //@ts-ignore
     const id = req.id;
-    const user = yield index_js_2.client.user.findFirst({
+    const user = yield index_js_2.prismaClient.user.findFirst({
         where: {
             email: req.body.username,
         },
